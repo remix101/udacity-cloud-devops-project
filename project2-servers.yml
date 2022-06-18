@@ -173,7 +173,7 @@ Resources:
     Properties:
       Path: "/"
       Roles:
-        - Ref: S3ReadOnlyEC2
+        - Ref: S3EC2Role
 # End of Resources
 
 # Add Outputs here
@@ -184,5 +184,5 @@ Outputs:
         Export:
           Name: !Sub ${EnvironmentName}-URL
 
-#
+# End of output
 
