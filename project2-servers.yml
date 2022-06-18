@@ -13,45 +13,6 @@ Parameters:
 
 # Add Resources here
 Resources:
-  S3ReadOnlyEC2:
-    Type: AWS::IAM::Role
-    Properties:
-      RoleName: !Sub ${EnvironmentName}-Role
-      AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service:
-                - ec2.amazonaws.com
-            Action:
-              - sts:AssumeRole
-      Path: "/"
-
-  RolePolicies:
-    Type: AWS::IAM::Policy
-    Properties:
-      PolicyName: AmazonS3ReadOnlyAccess
-      PolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          - Effect: Allow
-            Action:
-              - s3:Get*
-              - s3:List*
-            Resource:
-              - arn:aws:s3:::udacity-project
-              - arn:aws:s3:::udacity-project-1/*
-      Roles:
-        - Ref: S3ReadOnlyEC2
-
-  ProfileWithRolesForOurApp:
-    Type: AWS::IAM::InstanceProfile
-    Properties:
-      Path: "/"
-      Roles:
-        - Ref: S3ReadOnlyEC2
-
   LBSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -174,6 +135,45 @@ Resources:
       VpcId:
         Fn::ImportValue:
           Fn::Sub: "${EnvironmentName}-VPCID"
+
+  S3EC2Role:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${EnvironmentName}-Role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: "/"
+
+  IAMPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: AmazonS3ReadOnlyAccess
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - s3:Get*
+              - s3:List*
+            Resource:
+              - arn:aws:s3:::udacity-project
+              - arn:aws:s3:::udacity-project-1/*
+      Roles:
+        - Ref: S3EC2Role
+
+  EC2InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: "/"
+      Roles:
+        - Ref: S3ReadOnlyEC2
 # End of Resources
 
 # Add Outputs here
