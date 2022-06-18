@@ -59,11 +59,11 @@ Resources:
       UserData:
         Fn::Base64: !Sub |
           #!/bin/bash
-          apt-get update
+          apt-get update -y
           apt-get install apache2 -y
-          mv /var/www/html/index.html /var/www/html/index_old.html
-          wget -P /var/www/html https://udacitydevopsproject.s3-us-east-1.amazonaws.com/index.html
           systemctl start apache2.service
+          cd /var/www/html
+          echo "it works! Udagram, Udacity" > index.html
       ImageId: ami-0729e439b6769d6ab
       SecurityGroups:
       - Ref: WebServerSecurityGroup

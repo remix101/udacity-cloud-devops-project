@@ -9,5 +9,5 @@ Outputs
 ------------------
 One of the major outputs is the ability to make a request to the load balancer on port 80
 
-http://udagr-WebAp-FRT50PFE7C7N-1688252370.us-east-1.elb.amazonaws.com
+http://udagr-webap-qiifmz1l1yic-1958698283.us-east-1.elb.amazonaws.com
 
